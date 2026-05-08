@@ -116,7 +116,7 @@
             try {
                 // Шлём данные напрямую на твой сервер бота (порт 8080)
                 // ЗАМЕНИ 'ТВОЙ_IP_АДРЕС' на IP твоего компа/сервера (например: 192.168.1.100 или ngrok-ссылку)
-                await fetch('http://ТВОЙ_IP_АДРЕС:8080/api/order', {
+                await fetch('ngrok http 8080', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
