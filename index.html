@@ -71,21 +71,21 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        let selectedService = "";
+        let selectedServiceName = "";
         let selectedPrice = "";
 
         function selectService(element, serviceName, servicePrice) {
             const cards = document.querySelectorAll('#services-list > div');
             cards.forEach(card => card.classList.remove('active-card'));
             element.classList.add('active-card');
-            selectedService = serviceName;
+            selectedServiceName = serviceName;
             selectedPrice = servicePrice;
         }
 
         async function sendDataToBot() {
             const executor = document.getElementById('executor').value;
 
-            if (!selectedService) {
+            if (!selectedServiceName) {
                 if (tg.HapticFeedback) {
                     tg.HapticFeedback.notificationOccurred('error');
                 }
@@ -104,7 +104,7 @@
                 user_id: user.id || 0,
                 username: user.username || 'unknown',
                 full_name: `${user.first_name || ''} ${user.last_name || ''}`.trim(),
-                service: `${selectedService} (${selectedPrice})`,
+                service: `${selectedServiceName} (${selectedPrice})`,
                 master: executor,
                 date: new Date().toLocaleDateString('ru-RU')
             };
@@ -114,24 +114,31 @@
             }
 
             try {
-                // Шлём данные напрямую на твой сервер бота (порт 8080)
-                // ЗАМЕНИ 'ТВОЙ_IP_АДРЕС' на IP твоего компа/сервера (например: 192.168.1.100 или ngrok-ссылку)
-              await fetch('https://stunning-maturity-diffuser.ngrok-free.dev/api/order', {
+                // Шлём данные напрямую на твой туннель ngrok
+                const response = await fetch('https://stunning-maturity-diffuser.ngrok-free.dev/api/order', {
                     method: 'POST',
+                    mode: 'cors', // Важно для кросс-доменных запросов
                     headers: {
-                        'Content-Type': 'application/js'
+                        'Content-Type': 'application/json' // ИСПРАВЛЕНО: json вместо js
                     },
                     body: JSON.stringify(orderData)
                 });
+
+                if (response.ok) {
+                    // Закрываем окно ТОЛЬКО если запрос дошёл успешно
+                    setTimeout(() => {
+                        tg.close();
+                    }, 500);
+                } else {
+                    throw new Error("Сервер вернул ошибку " + response.status);
+                }
+
             } catch (e) {
                 alert("Ошибка соединения с сервером бота!");
                 console.error(e);
+                btn.disabled = false;
+                btn.innerText = "Подтвердить оформление";
             }
-
-            // Закрываем приложение
-            setTimeout(() => {
-                tg.close();
-            }, 200);
         }
     </script>
 </body>
