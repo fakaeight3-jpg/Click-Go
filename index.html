@@ -7,33 +7,12 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-        .card {
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-        .card.selected {
-            border-color: #3b82f6;
-            background-color: #1e293b;
-            box-shadow: 0 0 0 2px #3b82f6;
-        }
-        .time-slot {
-            transition: transform 0.1s ease;
-        }
-        .time-slot:active {
-            transform: scale(0.97);
-        }
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        ::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-            cursor: pointer;
-        }
+        body { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); font-family: system-ui, sans-serif; }
+        .card { transition: all 0.2s ease; cursor: pointer; }
+        .card.selected { border-color: #3b82f6; background-color: #1e293b; box-shadow: 0 0 0 2px #3b82f6; }
+        .time-slot:active { transform: scale(0.97); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        ::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
     </style>
 </head>
 <body class="p-4 pb-8 text-white">
@@ -43,7 +22,7 @@
             <p class="text-gray-400 text-sm">Онлайн-запись к специалистам</p>
         </div>
 
-        <!-- Шаг 1: Услуга -->
+        <!-- Шаг 1 -->
         <div class="mb-6">
             <div class="flex items-center gap-2 mb-2">
                 <span class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">1</span>
@@ -51,30 +30,21 @@
             </div>
             <div id="services" class="space-y-2">
                 <div class="card bg-zinc-900 border-2 border-zinc-700 p-4 rounded-xl" data-service="Премиум Сервис" data-price="2500" data-duration="60">
-                    <div class="flex justify-between items-center">
-                        <span class="font-medium">⭐ Премиум Сервис</span>
-                        <span class="text-blue-400 font-bold">2500 ₽</span>
-                    </div>
+                    <div class="flex justify-between"><span>⭐ Премиум Сервис</span><span class="text-blue-400 font-bold">2500 ₽</span></div>
                     <div class="text-xs text-gray-500 mt-1">⏱ 60 минут</div>
                 </div>
                 <div class="card bg-zinc-900 border-2 border-zinc-700 p-4 rounded-xl" data-service="Стандартный Пакет" data-price="1500" data-duration="45">
-                    <div class="flex justify-between items-center">
-                        <span class="font-medium">⚡ Стандартный Пакет</span>
-                        <span class="text-blue-400 font-bold">1500 ₽</span>
-                    </div>
+                    <div class="flex justify-between"><span>⚡ Стандартный Пакет</span><span class="text-blue-400 font-bold">1500 ₽</span></div>
                     <div class="text-xs text-gray-500 mt-1">⏱ 45 минут</div>
                 </div>
                 <div class="card bg-zinc-900 border-2 border-zinc-700 p-4 rounded-xl" data-service="Экспресс Услуга" data-price="900" data-duration="30">
-                    <div class="flex justify-between items-center">
-                        <span class="font-medium">⚡ Экспресс Услуга</span>
-                        <span class="text-blue-400 font-bold">900 ₽</span>
-                    </div>
+                    <div class="flex justify-between"><span>⚡ Экспресс Услуга</span><span class="text-blue-400 font-bold">900 ₽</span></div>
                     <div class="text-xs text-gray-500 mt-1">⏱ 30 минут</div>
                 </div>
             </div>
         </div>
 
-        <!-- Шаг 2: Мастер -->
+        <!-- Шаг 2 -->
         <div class="mb-6">
             <div class="flex items-center gap-2 mb-2">
                 <span class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">2</span>
@@ -82,17 +52,15 @@
             </div>
             <div id="masters" class="grid grid-cols-2 gap-3">
                 <div class="card bg-zinc-900 border-2 border-zinc-700 p-3 rounded-xl text-center" data-master="Алексей (Ведущий специалист)">
-                    <div class="font-bold">Алексей</div>
-                    <div class="text-xs text-gray-400">Ведущий</div>
+                    <div class="font-bold">Алексей</div><div class="text-xs text-gray-400">Ведущий</div>
                 </div>
                 <div class="card bg-zinc-900 border-2 border-zinc-700 p-3 rounded-xl text-center" data-master="Мария (Специалист)">
-                    <div class="font-bold">Мария</div>
-                    <div class="text-xs text-gray-400">Специалист</div>
+                    <div class="font-bold">Мария</div><div class="text-xs text-gray-400">Специалист</div>
                 </div>
             </div>
         </div>
 
-        <!-- Шаг 3: Дата -->
+        <!-- Шаг 3 -->
         <div class="mb-6">
             <div class="flex items-center gap-2 mb-2">
                 <span class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">3</span>
@@ -101,7 +69,7 @@
             <input type="date" id="datePicker" class="w-full bg-zinc-900 border-2 border-zinc-700 text-white p-3 rounded-xl focus:border-blue-500 outline-none" min="">
         </div>
 
-        <!-- Шаг 4: Время (появляется после выбора даты) -->
+        <!-- Шаг 4 -->
         <div id="timeStep" class="mb-6 hidden">
             <div class="flex items-center gap-2 mb-2">
                 <span class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">4</span>
@@ -111,41 +79,27 @@
             <div id="loadingSlots" class="text-center text-gray-400 text-sm py-4 hidden">Загрузка свободного времени...</div>
         </div>
 
-        <!-- Кнопка отправки -->
         <button id="submitBtn" disabled class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all disabled:bg-gray-700 disabled:cursor-not-allowed">
             Записаться
         </button>
     </div>
 
     <script>
-        // === НАСТРОЙКА ===
-        // !!! СЮДА ВСТАВЬТЕ ВАШ АКТУАЛЬНЫЙ NGROK URL (БЕЗ СЛЭША В КОНЦЕ) !!!
-        const API_BASE = "https://stunning-maturity-diffuser.ngrok-free.dev";   // <--- ИЗМЕНИТЕ ЭТО
-        
+        const API_BASE = "";  // пустая строка – запросы на тот же домен
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.enableClosingConfirmation();
-        
-        // Данные выбора
-        let selectedService = null;   // { name, price, duration }
-        let selectedMaster = null;
-        let selectedDate = "";
-        let selectedTime = "";
-        
-        // DOM элементы
-        const servicesDiv = document.getElementById('services');
-        const mastersDiv = document.getElementById('masters');
+
+        let selectedService = null, selectedMaster = null, selectedDate = "", selectedTime = "";
         const datePicker = document.getElementById('datePicker');
         const timeStep = document.getElementById('timeStep');
         const timeSlotsDiv = document.getElementById('timeSlots');
         const loadingSlots = document.getElementById('loadingSlots');
         const submitBtn = document.getElementById('submitBtn');
-        
-        // Установка минимальной даты (сегодня)
+
         const today = new Date().toISOString().split('T')[0];
         datePicker.min = today;
-        
-        // === ВЫБОР УСЛУГИ ===
+
         document.querySelectorAll('#services .card').forEach(card => {
             card.addEventListener('click', () => {
                 document.querySelectorAll('#services .card').forEach(c => c.classList.remove('selected'));
@@ -158,57 +112,42 @@
                 checkEnableSubmit();
             });
         });
-        
-        // === ВЫБОР МАСТЕРА ===
+
         document.querySelectorAll('#masters .card').forEach(card => {
             card.addEventListener('click', () => {
                 document.querySelectorAll('#masters .card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
                 selectedMaster = card.dataset.master;
-                // При смене мастера сбрасываем выбранное время и дату
                 selectedTime = "";
-                if (selectedDate) {
-                    loadSlots(selectedDate);
-                }
+                if (selectedDate) loadSlots(selectedDate);
                 checkEnableSubmit();
             });
         });
-        
-        // === ВЫБОР ДАТЫ ===
+
         datePicker.addEventListener('change', (e) => {
             selectedDate = e.target.value;
             selectedTime = "";
-            if (selectedDate && selectedMaster) {
-                loadSlots(selectedDate);
-            } else {
-                timeStep.classList.add('hidden');
-            }
+            if (selectedDate && selectedMaster) loadSlots(selectedDate);
+            else timeStep.classList.add('hidden');
             checkEnableSubmit();
         });
-        
-        // === ЗАГРУЗКА СЛОТОВ С СЕРВЕРА ===
+
         async function loadSlots(date) {
             if (!selectedMaster || !selectedService) return;
-            
             timeStep.classList.remove('hidden');
             timeSlotsDiv.innerHTML = '';
             loadingSlots.classList.remove('hidden');
-            
             try {
                 const url = `${API_BASE}/api/slots?date=${date}&master=${encodeURIComponent(selectedMaster)}&duration=${selectedService.duration}`;
-                console.log("Загрузка слотов:", url);
                 const response = await fetch(url);
                 if (!response.ok) throw new Error("Ошибка сервера");
                 const data = await response.json();
                 const slots = data.slots || [];
-                
                 loadingSlots.classList.add('hidden');
-                
                 if (slots.length === 0) {
-                    timeSlotsDiv.innerHTML = '<div class="col-span-4 text-center text-gray-400 py-4">Нет свободного времени в этот день</div>';
+                    timeSlotsDiv.innerHTML = '<div class="col-span-4 text-center text-gray-400 py-4">Нет свободного времени</div>';
                     selectedTime = "";
                 } else {
-                    timeSlotsDiv.innerHTML = '';
                     slots.forEach(slot => {
                         const btn = document.createElement('div');
                         btn.className = 'time-slot bg-zinc-900 border-2 border-zinc-700 p-3 rounded-xl text-center text-sm font-mono cursor-pointer hover:border-blue-500 transition';
@@ -223,23 +162,19 @@
                     });
                 }
             } catch (err) {
-                console.error(err);
                 loadingSlots.classList.add('hidden');
                 timeSlotsDiv.innerHTML = '<div class="col-span-4 text-center text-red-400 py-4">⚠️ Ошибка соединения с сервером</div>';
                 selectedTime = "";
             }
         }
-        
-        // === АКТИВАЦИЯ КНОПКИ ===
+
         function checkEnableSubmit() {
             const ready = selectedService && selectedMaster && selectedDate && selectedTime;
             submitBtn.disabled = !ready;
         }
-        
-        // === ОТПРАВКА ЗАКАЗА ===
+
         async function sendOrder() {
             if (!selectedService || !selectedMaster || !selectedDate || !selectedTime) return;
-            
             const user = tg.initDataUnsafe.user || {};
             const orderData = {
                 user_id: user.id || 0,
@@ -250,19 +185,16 @@
                 date: selectedDate,
                 time_slot: selectedTime
             };
-            
             submitBtn.disabled = true;
             submitBtn.innerText = "Отправка...";
-            
             try {
                 const response = await fetch(`${API_BASE}/api/order`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(orderData)
                 });
-                
                 if (response.ok) {
-                    tg.showAlert("✅ Запись успешно отправлена! Ожидайте подтверждения.");
+                    tg.showAlert("✅ Запись отправлена! Ожидайте подтверждения.");
                     setTimeout(() => tg.close(), 1500);
                 } else {
                     const err = await response.json();
@@ -271,14 +203,11 @@
                     submitBtn.innerText = "Записаться";
                 }
             } catch (error) {
-                console.error(error);
-                tg.showAlert("❌ Ошибка соединения с сервером. Попробуйте позже.");
+                tg.showAlert("❌ Ошибка соединения с сервером.");
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Записаться";
             }
         }
-        
-        // Привязываем функцию к кнопке
         submitBtn.onclick = sendOrder;
     </script>
 </body>
