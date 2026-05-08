@@ -116,10 +116,10 @@
             try {
                 // Шлём данные напрямую на твой сервер бота (порт 8080)
                 // ЗАМЕНИ 'ТВОЙ_IP_АДРЕС' на IP твоего компа/сервера (например: 192.168.1.100 или ngrok-ссылку)
-                await fetch('ngrok http 8080', {
+                await fetch('https://stunning-maturity-diffuser.ngrok-free.dev', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/js'
                     },
                     body: JSON.stringify(orderData)
                 });
