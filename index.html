@@ -2,52 +2,72 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EasyBook - Запись онлайн</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Click & Go - Запись</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #121212; color: #ffffff; }
-        .service-card, .master-card, .time-slot {
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        .card {
             transition: all 0.2s ease;
             cursor: pointer;
         }
-        .service-card.selected, .master-card.selected, .time-slot.selected {
+        .card.selected {
             border-color: #3b82f6;
             background-color: #1e293b;
             box-shadow: 0 0 0 2px #3b82f6;
         }
-        .time-slot:active { transform: scale(0.98); }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .time-slot {
+            transition: transform 0.1s ease;
+        }
+        .time-slot:active {
+            transform: scale(0.97);
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        ::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
     </style>
 </head>
-<body class="p-4 pb-8">
+<body class="p-4 pb-8 text-white">
     <div class="max-w-md mx-auto">
-        <h1 class="text-3xl font-bold text-center text-blue-500 mb-2">EASYBOOK</h1>
-        <p class="text-center text-gray-400 text-sm mb-6">Онлайн-запись к специалистам</p>
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-black bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">CLICK & GO</h1>
+            <p class="text-gray-400 text-sm">Онлайн-запись к специалистам</p>
+        </div>
 
         <!-- Шаг 1: Услуга -->
         <div class="mb-6">
-            <label class="block text-sm font-semibold text-gray-300 mb-3">1. ВЫБЕРИТЕ УСЛУГУ</label>
+            <div class="flex items-center gap-2 mb-2">
+                <span class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                <span class="font-semibold text-gray-300">Выберите услугу</span>
+            </div>
             <div id="services" class="space-y-2">
-                <div class="service-card bg-zinc-900 border-2 border-zinc-800 p-4 rounded-xl" data-service="Премиум Сервис" data-price="2500" data-duration="60">
-                    <div class="flex justify-between">
-                        <span>⭐ Премиум Сервис</span>
-                        <span class="text-blue-400 font-bold">2500₽</span>
+                <div class="card bg-zinc-900 border-2 border-zinc-700 p-4 rounded-xl" data-service="Премиум Сервис" data-price="2500" data-duration="60">
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium">⭐ Премиум Сервис</span>
+                        <span class="text-blue-400 font-bold">2500 ₽</span>
                     </div>
                     <div class="text-xs text-gray-500 mt-1">⏱ 60 минут</div>
                 </div>
-                <div class="service-card bg-zinc-900 border-2 border-zinc-800 p-4 rounded-xl" data-service="Стандартный Пакет" data-price="1500" data-duration="45">
-                    <div class="flex justify-between">
-                        <span>⚡ Стандартный Пакет</span>
-                        <span class="text-blue-400 font-bold">1500₽</span>
+                <div class="card bg-zinc-900 border-2 border-zinc-700 p-4 rounded-xl" data-service="Стандартный Пакет" data-price="1500" data-duration="45">
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium">⚡ Стандартный Пакет</span>
+                        <span class="text-blue-400 font-bold">1500 ₽</span>
                     </div>
                     <div class="text-xs text-gray-500 mt-1">⏱ 45 минут</div>
                 </div>
-                <div class="service-card bg-zinc-900 border-2 border-zinc-800 p-4 rounded-xl" data-service="Экспресс Услуга" data-price="900" data-duration="30">
-                    <div class="flex justify-between">
-                        <span>⏱️ Экспресс Услуга</span>
-                        <span class="text-blue-400 font-bold">900₽</span>
+                <div class="card bg-zinc-900 border-2 border-zinc-700 p-4 rounded-xl" data-service="Экспресс Услуга" data-price="900" data-duration="30">
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium">⚡ Экспресс Услуга</span>
+                        <span class="text-blue-400 font-bold">900 ₽</span>
                     </div>
                     <div class="text-xs text-gray-500 mt-1">⏱ 30 минут</div>
                 </div>
@@ -56,14 +76,17 @@
 
         <!-- Шаг 2: Мастер -->
         <div class="mb-6">
-            <label class="block text-sm font-semibold text-gray-300 mb-3">2. ВЫБЕРИТЕ СПЕЦИАЛИСТА</label>
-            <div id="masters" class="grid grid-cols-2 gap-2">
-                <div class="master-card bg-zinc-900 border-2 border-zinc-800 p-3 rounded-xl text-center" data-master="Алексей (Ведущий)">
-                    <div class="font-semibold">Алексей</div>
+            <div class="flex items-center gap-2 mb-2">
+                <span class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                <span class="font-semibold text-gray-300">Выберите специалиста</span>
+            </div>
+            <div id="masters" class="grid grid-cols-2 gap-3">
+                <div class="card bg-zinc-900 border-2 border-zinc-700 p-3 rounded-xl text-center" data-master="Алексей (Ведущий специалист)">
+                    <div class="font-bold">Алексей</div>
                     <div class="text-xs text-gray-400">Ведущий</div>
                 </div>
-                <div class="master-card bg-zinc-900 border-2 border-zinc-800 p-3 rounded-xl text-center" data-master="Мария (Специалист)">
-                    <div class="font-semibold">Мария</div>
+                <div class="card bg-zinc-900 border-2 border-zinc-700 p-3 rounded-xl text-center" data-master="Мария (Специалист)">
+                    <div class="font-bold">Мария</div>
                     <div class="text-xs text-gray-400">Специалист</div>
                 </div>
             </div>
@@ -71,167 +94,192 @@
 
         <!-- Шаг 3: Дата -->
         <div class="mb-6">
-            <label class="block text-sm font-semibold text-gray-300 mb-3">3. ВЫБЕРИТЕ ДАТУ</label>
-            <input type="date" id="date" class="w-full bg-zinc-900 border-2 border-zinc-800 text-white p-3 rounded-xl" min="">
+            <div class="flex items-center gap-2 mb-2">
+                <span class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                <span class="font-semibold text-gray-300">Выберите дату</span>
+            </div>
+            <input type="date" id="datePicker" class="w-full bg-zinc-900 border-2 border-zinc-700 text-white p-3 rounded-xl focus:border-blue-500 outline-none" min="">
         </div>
 
-        <!-- Шаг 4: Время -->
-        <div class="mb-6" id="time-section" style="display: none;">
-            <label class="block text-sm font-semibold text-gray-300 mb-3">4. ВЫБЕРИТЕ ВРЕМЯ</label>
-            <div id="time-slots" class="grid grid-cols-4 gap-2"></div>
+        <!-- Шаг 4: Время (появляется после выбора даты) -->
+        <div id="timeStep" class="mb-6 hidden">
+            <div class="flex items-center gap-2 mb-2">
+                <span class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                <span class="font-semibold text-gray-300">Выберите время</span>
+            </div>
+            <div id="timeSlots" class="grid grid-cols-4 gap-2"></div>
+            <div id="loadingSlots" class="text-center text-gray-400 text-sm py-4 hidden">Загрузка свободного времени...</div>
         </div>
 
         <!-- Кнопка отправки -->
-        <button id="submitBtn" onclick="sendOrder()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all disabled:opacity-50">
-            📅 Записаться
+        <button id="submitBtn" disabled class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all disabled:bg-gray-700 disabled:cursor-not-allowed">
+            Записаться
         </button>
     </div>
 
     <script>
+        // === НАСТРОЙКА ===
+        // !!! СЮДА ВСТАВЬТЕ ВАШ АКТУАЛЬНЫЙ NGROK URL (БЕЗ СЛЭША В КОНЦЕ) !!!
+        const API_BASE = "https://stunning-maturity-diffuser.ngrok-free.dev";   // <--- ИЗМЕНИТЕ ЭТО
+        
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.enableClosingConfirmation();
-
-        let selectedService = null;
+        
+        // Данные выбора
+        let selectedService = null;   // { name, price, duration }
         let selectedMaster = null;
-        let selectedTime = null;
-
-        // Выбор услуги
-        document.querySelectorAll('.service-card').forEach(card => {
-            card.onclick = () => {
-                document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+        let selectedDate = "";
+        let selectedTime = "";
+        
+        // DOM элементы
+        const servicesDiv = document.getElementById('services');
+        const mastersDiv = document.getElementById('masters');
+        const datePicker = document.getElementById('datePicker');
+        const timeStep = document.getElementById('timeStep');
+        const timeSlotsDiv = document.getElementById('timeSlots');
+        const loadingSlots = document.getElementById('loadingSlots');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        // Установка минимальной даты (сегодня)
+        const today = new Date().toISOString().split('T')[0];
+        datePicker.min = today;
+        
+        // === ВЫБОР УСЛУГИ ===
+        document.querySelectorAll('#services .card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('#services .card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
                 selectedService = {
                     name: card.dataset.service,
                     price: card.dataset.price,
                     duration: parseInt(card.dataset.duration)
                 };
-            };
+                checkEnableSubmit();
+            });
         });
-
-        // Выбор мастера
-        document.querySelectorAll('.master-card').forEach(card => {
-            card.onclick = () => {
-                document.querySelectorAll('.master-card').forEach(c => c.classList.remove('selected'));
+        
+        // === ВЫБОР МАСТЕРА ===
+        document.querySelectorAll('#masters .card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('#masters .card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
                 selectedMaster = card.dataset.master;
-            };
-        });
-
-        // Установка минимальной даты (сегодня)
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('date').min = today;
-
-        // Генерация слотов при выборе даты
-        document.getElementById('date').onchange = async function() {
-            if (!selectedService) {
-                alert('Сначала выберите услугу!');
-                return;
-            }
-            
-            const date = this.value;
-            const master = selectedMaster;
-            
-            if (!master) {
-                alert('Выберите мастера!');
-                return;
-            }
-            
-            // Здесь должен быть запрос к серверу для получения свободных слотов
-            // Для демо генерируем слоты на клиенте
-            generateMockSlots(date, master, selectedService.duration);
-        };
-        
-        function generateMockSlots(date, master, duration) {
-            const slots = [];
-            // Генерируем слоты с 10:00 до 20:00 с шагом 30 минут
-            for (let hour = 10; hour < 20; hour++) {
-                for (let minute of [0, 30]) {
-                    const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-                    // Проверяем, что услуга помещается до 20:00
-                    const [h, m] = time.split(':').map(Number);
-                    const endHour = h + Math.floor((m + duration) / 60);
-                    if (endHour < 20 || (endHour === 20 && (m + duration) % 60 === 0)) {
-                        slots.push(time);
-                    }
+                // При смене мастера сбрасываем выбранное время и дату
+                selectedTime = "";
+                if (selectedDate) {
+                    loadSlots(selectedDate);
                 }
-            }
-            
-            const container = document.getElementById('time-slots');
-            container.innerHTML = '';
-            
-            slots.forEach(slot => {
-                const btn = document.createElement('div');
-                btn.className = 'time-slot bg-zinc-900 border-2 border-zinc-800 p-3 rounded-xl text-center text-sm font-mono';
-                btn.textContent = slot;
-                btn.onclick = () => {
-                    document.querySelectorAll('.time-slot').forEach(b => b.classList.remove('selected'));
-                    btn.classList.add('selected');
-                    selectedTime = slot;
-                };
-                container.appendChild(btn);
+                checkEnableSubmit();
             });
+        });
+        
+        // === ВЫБОР ДАТЫ ===
+        datePicker.addEventListener('change', (e) => {
+            selectedDate = e.target.value;
+            selectedTime = "";
+            if (selectedDate && selectedMaster) {
+                loadSlots(selectedDate);
+            } else {
+                timeStep.classList.add('hidden');
+            }
+            checkEnableSubmit();
+        });
+        
+        // === ЗАГРУЗКА СЛОТОВ С СЕРВЕРА ===
+        async function loadSlots(date) {
+            if (!selectedMaster || !selectedService) return;
             
-            document.getElementById('time-section').style.display = 'block';
+            timeStep.classList.remove('hidden');
+            timeSlotsDiv.innerHTML = '';
+            loadingSlots.classList.remove('hidden');
+            
+            try {
+                const url = `${API_BASE}/api/slots?date=${date}&master=${encodeURIComponent(selectedMaster)}&duration=${selectedService.duration}`;
+                console.log("Загрузка слотов:", url);
+                const response = await fetch(url);
+                if (!response.ok) throw new Error("Ошибка сервера");
+                const data = await response.json();
+                const slots = data.slots || [];
+                
+                loadingSlots.classList.add('hidden');
+                
+                if (slots.length === 0) {
+                    timeSlotsDiv.innerHTML = '<div class="col-span-4 text-center text-gray-400 py-4">Нет свободного времени в этот день</div>';
+                    selectedTime = "";
+                } else {
+                    timeSlotsDiv.innerHTML = '';
+                    slots.forEach(slot => {
+                        const btn = document.createElement('div');
+                        btn.className = 'time-slot bg-zinc-900 border-2 border-zinc-700 p-3 rounded-xl text-center text-sm font-mono cursor-pointer hover:border-blue-500 transition';
+                        btn.innerText = slot;
+                        btn.addEventListener('click', () => {
+                            document.querySelectorAll('#timeSlots .time-slot').forEach(b => b.classList.remove('border-blue-500', 'bg-blue-950'));
+                            btn.classList.add('border-blue-500', 'bg-blue-950');
+                            selectedTime = slot;
+                            checkEnableSubmit();
+                        });
+                        timeSlotsDiv.appendChild(btn);
+                    });
+                }
+            } catch (err) {
+                console.error(err);
+                loadingSlots.classList.add('hidden');
+                timeSlotsDiv.innerHTML = '<div class="col-span-4 text-center text-red-400 py-4">⚠️ Ошибка соединения с сервером</div>';
+                selectedTime = "";
+            }
         }
-
+        
+        // === АКТИВАЦИЯ КНОПКИ ===
+        function checkEnableSubmit() {
+            const ready = selectedService && selectedMaster && selectedDate && selectedTime;
+            submitBtn.disabled = !ready;
+        }
+        
+        // === ОТПРАВКА ЗАКАЗА ===
         async function sendOrder() {
-            if (!selectedService) {
-                alert('Выберите услугу!');
-                return;
-            }
-            if (!selectedMaster) {
-                alert('Выберите специалиста!');
-                return;
-            }
-            
-            const date = document.getElementById('date').value;
-            if (!date) {
-                alert('Выберите дату!');
-                return;
-            }
-            
-            if (!selectedTime) {
-                alert('Выберите время!');
-                return;
-            }
+            if (!selectedService || !selectedMaster || !selectedDate || !selectedTime) return;
             
             const user = tg.initDataUnsafe.user || {};
             const orderData = {
-                user_id: user.id,
-                username: user.username || 'unknown',
+                user_id: user.id || 0,
+                username: user.username || 'user',
                 full_name: `${user.first_name || ''} ${user.last_name || ''}`.trim(),
                 service: `${selectedService.name} (${selectedService.price}₽)`,
                 master: selectedMaster,
-                date: date,
+                date: selectedDate,
                 time_slot: selectedTime
             };
             
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Отправка...";
             
             try {
-                const response = await fetch('https://ВАШ-АДРЕС.ngrok-free.dev/api/order', {
+                const response = await fetch(`${API_BASE}/api/order`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(orderData)
                 });
                 
                 if (response.ok) {
-                    tg.showAlert('✅ Заявка отправлена! Ожидайте подтверждения.');
+                    tg.showAlert("✅ Запись успешно отправлена! Ожидайте подтверждения.");
                     setTimeout(() => tg.close(), 1500);
                 } else {
-                    const error = await response.json();
-                    tg.showAlert(error.message || 'Ошибка!');
+                    const err = await response.json();
+                    tg.showAlert("❌ Ошибка: " + (err.message || "Не удалось записаться"));
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "Записаться";
                 }
-            } catch (e) {
-                tg.showAlert('❌ Ошибка соединения!');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Записаться';
+            } catch (error) {
+                console.error(error);
+                tg.showAlert("❌ Ошибка соединения с сервером. Попробуйте позже.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Записаться";
             }
         }
+        
+        // Привязываем функцию к кнопке
+        submitBtn.onclick = sendOrder;
     </script>
 </body>
 </html>
