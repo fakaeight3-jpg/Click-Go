@@ -97,7 +97,6 @@
             btn.disabled = true;
             btn.innerText = "ОТПРАВКА...";
 
-            // Собираем данные юзера прямо из Telegram
             const user = tg.initDataUnsafe.user || {};
 
             const orderData = {
@@ -114,23 +113,21 @@
             }
 
             try {
-                // Шлём данные напрямую на твой туннель ngrok
                 const response = await fetch('https://stunning-maturity-diffuser.ngrok-free.dev/api/order', {
                     method: 'POST',
-                    mode: 'cors', // Важно для кросс-доменных запросов
+                    mode: 'cors',
                     headers: {
-                        'Content-Type': 'application/json' // ИСПРАВЛЕНО: json вместо js
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(orderData)
                 });
 
                 if (response.ok) {
-                    // Закрываем окно ТОЛЬКО если запрос дошёл успешно
                     setTimeout(() => {
                         tg.close();
                     }, 500);
                 } else {
-                    throw new Error("Сервер вернул ошибку " + response.status);
+                    throw new Error("Ошибка HTTP: " + response.status);
                 }
 
             } catch (e) {
