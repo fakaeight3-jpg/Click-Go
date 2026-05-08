@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyBook Demo</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+        }
+        .active-card {
+            border-color: #3b82f6; /* Синий неоновый фокус */
+            background-color: #1e293b;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+    </style>
+</head>
+<body class="p-4 flex flex-col justify-between min-h-screen pb-8">
+    
+    <div>
+        <div class="text-center mt-2 mb-6">
+            <h1 class="text-2xl font-extrabold text-blue-500 tracking-wide">EASYBOOK</h1>
+            <p class="text-xs text-gray-400 mt-1">Интерактивный демо-сервис заказа услуг</p>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm font-semibold text-gray-300 mb-3 uppercase tracking-wider">1. Выберите услугу</label>
+            <div id="services-list" class="space-y-3">
+                <div onclick="selectService(this, 'Премиум Сервис', '2500₽')" class="bg-zinc-900 border border-zinc-800 p-4 rounded-xl cursor-pointer transition-all duration-200 hover:border-zinc-700">
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium text-white">⭐ Премиум Сервис</span>
+                        <span class="text-blue-400 font-bold bg-blue-950/50 px-3 py-1 rounded-lg text-sm border border-blue-900/40">2500₽</span>
+                    </div>
+                </div>
+                <div onclick="selectService(this, 'Стандартный Пакет', '1500₽')" class="bg-zinc-900 border border-zinc-800 p-4 rounded-xl cursor-pointer transition-all duration-200 hover:border-zinc-700">
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium text-white">⚡ Стандартный Пакет</span>
+                        <span class="text-blue-400 font-bold bg-blue-950/50 px-3 py-1 rounded-lg text-sm border border-blue-900/40">1500₽</span>
+                    </div>
+                </div>
+                <div onclick="selectService(this, 'Экспресс Услуга', '900₽')" class="bg-zinc-900 border border-zinc-800 p-4 rounded-xl cursor-pointer transition-all duration-200 hover:border-zinc-700">
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium text-white">⏱️ Экспресс Услуга</span>
+                        <span class="text-blue-400 font-bold bg-blue-950/50 px-3 py-1 rounded-lg text-sm border border-blue-900/40">900₽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label for="executor" class="block text-sm font-semibold text-gray-300 mb-3 uppercase tracking-wider">2. Выберите специалиста</label>
+            <select id="executor" class="w-full bg-zinc-900 border border-zinc-800 text-white p-4 rounded-xl outline-none focus:border-blue-500 transition-all duration-200 cursor-pointer">
+                <option value="Алексей (Ведущий специалист)">Алексей (Ведущий специалист)</option>
+                <option value="Мария (Специалист)">Мария (Специалист)</option>
+                <option value="Автоматическое назначение">Любой свободный специалист</option>
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <button onclick="sendDataToBot()" id="submit-btn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all duration-200 transform active:scale-95 shadow-lg shadow-blue-500/20 uppercase tracking-wider text-sm">
+            Подтвердить оформление
+        </button>
+    </div>
+
+    <script>
+        // Инициализируем Telegram WebApp API
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачиваем приложение на максимум экрана телефона
+
+        let selectedService = "";
+        let selectedPrice = "";
+
+        // Функция выбора карточки услуги
+        function selectService(element, serviceName, servicePrice) {
+            // Сбрасываем активные классы со всех карточек
+            const cards = document.querySelectorAll('#services-list > div');
+            cards.forEach(card => card.classList.remove('active-card'));
+            
+            // Выделяем текущую кликнутую карточку
+            element.classList.add('active-card');
+            
+            // Сохраняем выбранные значения
+            selectedService = serviceName;
+            selectedPrice = servicePrice;
+        }
+
+        // Функция отправки данных обратно в чат боту
+        function sendDataToBot() {
+            const executor = document.getElementById('executor').value;
+
+            if (!selectedService) {
+                // Если юзер ничего не выбрал, вибрируем (тактильный отклик в TG) и выдаем предупреждение
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('error');
+                }
+                alert("Пожалуйста, выберите услугу из списка!");
+                return;
+            }
+
+            // Формируем JSON объект с данными
+            const orderData = {
+                service: `${selectedService} (${selectedPrice})`,
+                master: executor,
+                date: new Date().toLocaleDateString('ru-RU') // Текущая дата
+            };
+
+            // Тактильный отклик об успешном действии
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+
+            // Отправляем данные боту (это триггерит событие web_app_data в Python коде)
+            tg.sendData(JSON.stringify(orderData));
+        }
+    </script>
+</body>
+</html>
